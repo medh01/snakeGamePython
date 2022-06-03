@@ -2,11 +2,9 @@ import pygame as pg
 from random import *
 
 pg.init()
-
 screen = pg.display.set_mode((800,600))
-
 pg.display.set_caption("snake game")
-
+font = pg.font.Font(None,30)
 
 #game components			
 class Head : 
@@ -45,6 +43,7 @@ class Snake:
 	def __init__(self,head):
 		self.head=head
 		self.tail=[(self.head.x,self.head.y)]
+		self.nbFruitEaten=0
 	
 	def growTail(self,headRect,foodRect,food):
 		if headRect.colliderect(foodRect):
@@ -58,20 +57,27 @@ class Snake:
 				self.head.y+=32
 			self.tail.insert(0,(self.head.x,self.head.y))
 			food.gotEaten()
+			self.nbFruitEaten+=1
 	
 	def move(self):
 		self.head.move()
 		self.tail.insert(0,(self.head.x,self.head.y))
-		del(self.tail[-1])				
+		del(self.tail[-1])
+	
+	def gotBiten(self,headRect,l):
+		for item in l :
+			if headRect.colliderect(item) :
+				return True
+		return False 	
 
 class Food: 
 	def __init__(self):
-		self.x = randint(1,700) 
-		self.y = randint(1,500)
+		self.x = randint(100,700) 
+		self.y = randint(100,500)
 	
 	def gotEaten(self):
-		self.x = randint(1,700) 
-		self.y = randint(1,500)
+		self.x = randint(100,700) 
+		self.y = randint(100,500)
 			
 				
 
@@ -110,17 +116,24 @@ while running :
 	
 	snake.move()
 	#drawing the snake
+	l=[]
 	for i in range(len(snake.tail)):
 		if i == 0 : 
 			headRect = pg.draw.rect(screen,(24,29,39),(snake.tail[i][0],snake.tail[i][1],32,32))
 		else:
 			if i%2 :
-		 		pg.draw.rect(screen,(37,77,50),(snake.tail[i][0],snake.tail[i][1],32,32))
+		 		partRect = pg.draw.rect(screen,(37,77,50),(snake.tail[i][0],snake.tail[i][1],32,32))
+		 		l.append(partRect)
 			else:
-				pg.draw.rect(screen,(24,29,39),(snake.tail[i][0],snake.tail[i][1],32,32))
+				l.append(partRect)
+				partRect = pg.draw.rect(screen,(24,29,39),(snake.tail[i][0],snake.tail[i][1],32,32))
 	
+	if snake.gotBiten(headRect,l):
+		print(True)
 	foodRect = pg.draw.rect(screen,(153,15,2),(food.x,food.y,16,16))
 	snake.growTail(headRect,foodRect,food)
+	text = font.render(f"score : {snake.nbFruitEaten}", True, (0,0,0))
+	screen.blit(text,(10,10))
 	pg.display.update()
 
 
