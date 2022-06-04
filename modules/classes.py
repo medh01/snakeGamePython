@@ -9,32 +9,32 @@ class Head :
 		self.y=randint(1,500)
 		self.vel=20
 		self.direction = "right"
-		
+		self.gameOver = False
 	
 	def move(self):
 		if self.direction == "right" :
 			if self.x <768 :
 				self.x+=self.vel				
 			else:
-				self.x=0
+				self.gameOver = True
 			
 		if self.direction == "left" :
 			if self.x >0 :
 				self.x-=self.vel
 			else:
-				self.x = 768
+				self.gameOver = True
 	
 		if self.direction == "top" :
 			if self.y > 0 :
 				self.y-=self.vel
 			else:
-				self.y = 568
+				self.gameOver = True
 	
 		if self.direction == "bottom" :
 			if self.y < 568 :
 				self.y+=self.vel
 			else:
-				self.y = 0
+				self.gameOver = True
 									 				
 class Snake: 
 	def __init__(self,head):
