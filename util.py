@@ -1,13 +1,13 @@
 import pygame as pg
 from random import *
 pg.init()
-sound = pg.mixer.Sound("snakeEatingSound.mp3")
+sound = pg.mixer.Sound("sounds/snakeEatingSound.mp3")
 
 class Head : 
 	def __init__(self):
 		self.x=randint(1,700)
 		self.y=randint(1,500)
-		self.vel=16
+		self.vel=20
 		self.direction = "right"
 		
 	
@@ -22,13 +22,13 @@ class Head :
 			if self.x >0 :
 				self.x-=self.vel
 			else:
-				self.x = 0
+				self.x = 768
 	
 		if self.direction == "top" :
 			if self.y > 0 :
 				self.y-=self.vel
 			else:
-				self.y = 0
+				self.y = 568
 	
 		if self.direction == "bottom" :
 			if self.y < 568 :
@@ -45,13 +45,13 @@ class Snake:
 	def growTail(self,headRect,foodRect,food):
 		if headRect.colliderect(foodRect):
 			if self.head.direction == "right" :
-				self.head.x+=16
+				self.head.x+=20
 			elif self.head.direction == "left" :
-				self.head.x-=16
+				self.head.x-=20
 			elif self.head.direction == "top" :
-				self.head.y-=16
+				self.head.y-=20
 			else:
-				self.head.y+=16
+				self.head.y+=20
 			self.tail.insert(0,(self.head.x,self.head.y))
 			food.gotEaten()
 			self.nbFruitEaten+=1

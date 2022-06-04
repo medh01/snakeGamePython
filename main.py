@@ -9,7 +9,7 @@ pg.display.set_caption("snake game")
 font = pg.font.Font(None,30)
 
 #background music
-pg.mixer.music.load("bg.mp3")
+pg.mixer.music.load("sounds/bg.mp3")
 pg.mixer.music.play(-1)
 
 #game loop
@@ -46,17 +46,14 @@ while running :
 	
 	snake.move()
 	#drawing the snake
-	l=[]
 	for i in range(len(snake.tail)):
 		if i == 0 : 
-			headRect = pg.draw.rect(screen,(24,29,39),(snake.tail[i][0],snake.tail[i][1],16,16))
+			headRect = pg.draw.rect(screen,(24,29,39),(snake.tail[i][0],snake.tail[i][1],20,20))
 		else:
 			if i%2 :
-			 	partRect = pg.draw.rect(screen,(37,77,50),(snake.tail[i][0],snake.tail[i][1],16,16))
-			 	l.append(partRect)
+				partRect = pg.draw.rect(screen,(37,77,50),(snake.tail[i][0],snake.tail[i][1],20,20))
 			else:
-				l.append(partRect)
-				partRect = pg.draw.rect(screen,(24,29,39),(snake.tail[i][0],snake.tail[i][1],16,16))
+				partRect = pg.draw.rect(screen,(24,29,39),(snake.tail[i][0],snake.tail[i][1],20,20))
 		
 	foodRect = pg.draw.rect(screen,(153,15,2),(food.x,food.y,16,16))
 	snake.growTail(headRect,foodRect,food)
